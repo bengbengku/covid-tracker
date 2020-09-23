@@ -1,8 +1,9 @@
 "use strict";
 
 window.onload = () => {
-    getCountryData();
-}
+  getCountryData();
+  getHistoricalData();
+};
 
 var map;
 var infoWindow;
@@ -14,94 +15,166 @@ function initMap() {
       lng: 120,
     },
     zoom: 4,
-    styles: mapStyle
+    styles: mapStyle, //var dari mapStyle.js
   });
 
   infoWindow = new google.maps.InfoWindow();
 }
 
 const getCountryData = () => {
-    //Mengambil data dari api #1
+  //Mengambil data dari api #1
 
-    fetch("https://corona.lmao.ninja/v2/countries")
+  fetch("https://corona.lmao.ninja/v2/countries")
     .then((response) => {
-        return response.json();
-    }).then((data) => {
-        showDataOnMap(data); // passing data
-        showDataInTable(data);
+      return response.json();
     })
-}
+    .then((data) => {
+      showDataOnMap(data); // passing data
+      showDataInTable(data);
+    });
+};
+
+const getHistoricalData = () => {
+  //Mengambil data historical dari api
+
+  fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      let chartData = buildChartData(data);
+      buildChart(chartData);
+    });
+};
+
+const buildChartData = (data) => {
+  let chartData = [];
+  for (let date in data.cases) {
+    let newDataPoint = {
+      x: date,
+      y: data.cases[date],
+    };
+    chartData.push(newDataPoint);
+  }
+
+  return chartData;
+};
+
+const buildChart = (chartData) => {
+  var timeFormat = "MM/DD/YY";
+  var ctx = document.getElementById("myChart").getContext("2d");
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: "line",
+
+    // The data for our dataset
+    data: {
+      datasets: [
+        {
+          label: "Total Kasus",
+          borderColor: "#1287f5",
+          data: chartData,
+        },
+      ],
+    },
+
+    // Configuration options go here && Import moment.js
+    options: {
+      tooltips: {
+        mode: "index",
+        intersect: false,
+      },
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              format: timeFormat,
+              tooltipFormat: "ll",
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Date",
+            },
+          },
+        ],
+        yAxes: [
+          {
+            ticks: {
+              // Mengubah format dengan numeral
+              callback: function (value, index, values) {
+                return numeral(value).format("0,0");
+              },
+            },
+          },
+        ],
+      },
+    },
+  });
+};
 
 const showDataOnMap = (data) => {
-    //Mengeluarkan data untuk ditampilkan #2
-    data.map((country) => {
+  //Mengeluarkan data untuk ditampilkan #2
+  data.map((country) => {
+    let countryCenter = {
+      lat: country.countryInfo.lat,
+      lng: country.countryInfo.long,
+    };
 
-        let countryCenter = {
-            lat: country.countryInfo.lat,
-            lng : country.countryInfo.long
-        }
+    const countryCircle = new google.maps.Circle({
+      strokeColor: "#1287f5",
+      strokeOpacity: 0.5,
+      strokeWeight: 3,
+      fillColor: "#1287f5",
+      fillOpacity: 0.35,
+      map,
+      center: countryCenter,
+      radius: country.cases * 0.28,
+    });
 
-        const countryCircle = new google.maps.Circle({
-            strokeColor: "#810000",
-            strokeOpacity: 0.5,
-            strokeWeight: 1,
-            fillColor: "#F32013",
-            fillOpacity: 0.35,
-            map,
-            center: countryCenter,
-            radius: country.cases * 0.28
-          });
-
-          var html = `
+    var html = `
             <div class="info-container">
                 <div class="info-flag" style="background-image: url(${country.countryInfo.flag})"></div>
                 <div class="info-name">
                     ${country.country}
                 </div>
                 <div class="info-confirmed">
-                    Total: ${country.cases}
+                    Total Kasus: ${country.cases}
                 </div>
                 <div class="info-deaths">
-                   Deaths: ${country.deaths} 
+                   Meninggal: ${country.deaths} 
                 </div>
                 <div class="info-recovered">
-                   Recovered: ${country.recovered}        
+                   Sembuh: ${country.recovered}        
                 </div>                
             </div>
-          `
-          var infoWindow = new google.maps.InfoWindow({
-                content: html,
-                position: countryCircle.center
-          });
+          `;
+    var infoWindow = new google.maps.InfoWindow({
+      content: html,
+      position: countryCircle.center,
+    });
 
+    google.maps.event.addListener(countryCircle, "mouseover", function () {
+      infoWindow.open(map);
+    });
 
-          google.maps.event.addListener(countryCircle, 'mouseover', function() {
-            infoWindow.open(map);
-          });
-
-          google.maps.event.addListener(countryCircle, 'mouseout', function(){
-            infoWindow.close();
-          });
-
-
-    })
-
-
-}
+    google.maps.event.addListener(countryCircle, "mouseout", function () {
+      infoWindow.close();
+    });
+  });
+};
 
 const showDataInTable = (data) => {
-    var html = '';
-    data.forEach((country) => {
-        
-        html += `
+  var html = "";
+  data.forEach((country) => {
+    html += `
             <tr>
-                <td>${country.country}</td>
+                <td id="img-flexbox"><div class="country-img" style="background-image: url(${country.countryInfo.flag})"></div>${country.country}</td>
                 <td>${country.cases}</td>
                 <td>${country.recovered}</td>
                 <td>${country.deaths}</td>
             </tr>
-        `
-        document.getElementById('table-data').innerHTML = html;
-
-    });
-}
+        `;
+    document.getElementById("table-data").innerHTML = html;
+  });
+};
