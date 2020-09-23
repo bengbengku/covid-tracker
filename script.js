@@ -14,6 +14,7 @@ function initMap() {
       lng: 120,
     },
     zoom: 4,
+    styles: mapStyle
   });
 
   infoWindow = new google.maps.InfoWindow();
