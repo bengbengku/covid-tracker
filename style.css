@@ -1,10 +1,8 @@
-
 body {
   margin: 0;
 }
 
 #nav {
-  background-color: blue;
   height: 50px;
 }
 
@@ -28,20 +26,46 @@ body {
 .table,
 .table tr,
 .table td {
-    background-color: white !important;
+  background-color: white !important;
 }
 
 .country-data {
   margin-top: 20px;
   border-radius: 10px;
   overflow: hidden;
-  width: 50%;
+  width: 40%;
   overflow-y: scroll;
   transition: all 0.25s ease;
+  border: 1px solid #dadce0;
+  padding: 20px;
 }
 
 .country-data:hover {
-  box-shadow: 0 2rem 5rem 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2rem 2.5rem 0 rgba(0, 0, 0, 0.1);
+}
+
+
+.country-img {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+  margin-top: 3px;
+  background-size: contain;
+}
+
+#img-flexbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.chart-data {
+  width: 30%;
+  height: 52%;
+  margin-top: 20px;
+  margin-left: 30px;
+  border: 1px solid #dadce0;
+  border-radius: 10px;
 }
 
 .info-flag img {
