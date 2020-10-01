@@ -14,8 +14,10 @@ function initMap() {
       lat: -5,
       lng: 120,
     },
-    zoom: 4,
+    zoom: 3.2,
+    minZoom: 3,
     styles: mapStyle, //var dari mapStyle.js
+    scrollwheel: false,
   });
 
   infoWindow = new google.maps.InfoWindow();
@@ -71,7 +73,7 @@ const buildChart = (chartData) => {
     data: {
       datasets: [
         {
-          label: "Total Kasus",
+          label: "🤢Total Kasus",
           borderColor: "#1287f5",
           data: chartData,
         },
@@ -153,7 +155,7 @@ const showDataOnMap = (data) => {
       content: html,
       position: countryCircle.center,
     });
-
+    
     google.maps.event.addListener(countryCircle, "mouseover", function () {
       infoWindow.open(map);
     });

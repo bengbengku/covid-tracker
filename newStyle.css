@@ -1,0 +1,12 @@
+.main {
+    height: 100vh;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.map-container {
+    height: 500px;
+}
