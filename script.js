@@ -82,6 +82,7 @@ const buildChart = (chartData) => {
 
     // Configuration options go here && Import moment.js
     options: {
+      maintainAspectRatio: false,
       tooltips: {
         mode: "index",
         intersect: false,
@@ -94,12 +95,7 @@ const buildChart = (chartData) => {
               format: timeFormat,
               tooltipFormat: "ll",
             },
-            scaleLabel: {
-              display: true,
-              labelString: "Date",
-            },
-          },
-        ],
+          }],
         yAxes: [
           {
             ticks: {
@@ -124,10 +120,10 @@ const showDataOnMap = (data) => {
     };
 
     const countryCircle = new google.maps.Circle({
-      strokeColor: "#1287f5",
+      strokeColor: "#fc3c3c",
       strokeOpacity: 0.5,
       strokeWeight: 3,
-      fillColor: "#1287f5",
+      fillColor: "#fc3c3c",
       fillOpacity: 0.35,
       map,
       center: countryCenter,
