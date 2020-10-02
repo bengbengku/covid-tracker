@@ -3,6 +3,7 @@
 window.onload = () => {
   getCountryData();
   getHistoricalData();
+  getWorldCoronaData();
 };
 
 var map;
@@ -36,6 +37,16 @@ const getCountryData = () => {
     });
 };
 
+const getWorldCoronaData = () => {
+  fetch("https://disease.sh/v3/covid-19/all")
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      buildPieChart(data);
+    });
+};
+
 const getHistoricalData = () => {
   //Mengambil data historical dari api
 
@@ -60,6 +71,32 @@ const buildChartData = (data) => {
   }
 
   return chartData;
+};
+
+const buildPieChart = (data) => {
+  var ctx = document.getElementById("myPieChart").getContext("2d");
+  var myPieChart = new Chart(ctx, {
+    type: "pie",
+    data: {
+      datasets: [
+        {
+          data: [data.active, data.recovered, data.deaths],
+          backgroundColor: [
+            '#9d80fe',
+            '#7dd71d',
+            '#fb4443'
+          ]
+        },
+      ],
+
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+      labels: ["Kasus Aktif", "Sembuh", "Meninggal"],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
 };
 
 const buildChart = (chartData) => {
@@ -95,7 +132,8 @@ const buildChart = (chartData) => {
               format: timeFormat,
               tooltipFormat: "ll",
             },
-          }],
+          },
+        ],
         yAxes: [
           {
             ticks: {
@@ -151,7 +189,7 @@ const showDataOnMap = (data) => {
       content: html,
       position: countryCircle.center,
     });
-    
+
     google.maps.event.addListener(countryCircle, "mouseover", function () {
       infoWindow.open(map);
     });
