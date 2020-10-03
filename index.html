@@ -27,8 +27,7 @@
           <div class="col-8">
             <div class="row header-container">
               <div class="col title-container">
-                <h1>Covid-19</h1>
-                <h3>Coronavirus</h3>
+                <h2>COVID-19 Tracker</h2>
               </div>
               <div class="col search-container">
                 <div class="input-group">
@@ -45,32 +44,27 @@
               <div class="col">
                 <div class="card" onclick="changeDataSelection('cases')">
                   <div class="card-body">
-                    <h5 class="card-title">Total Kasus</h5>
-                    <h6 class="card-subtitle mb-2 total-number">1,436,345</h6>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" onclick="changeDataSelection('active')">
-                  <div class="card-body">
-                    <h5 class="card-title">Kasus Aktif</h5>
-                    <h6 class="card-subtitle mb-2 active-number">1,436,345</h6>
+                    <h6 class="card-title">Terkonfirmasi</h6>
+                    <h3 class="card-subtitle mb-2 total-number">1,436,345</h3>
+                    <div class="text-muted font-weight-bold total cases-total">1.69M Total</div>
                   </div>
                 </div>
               </div>
               <div class="col">
                 <div class="card" onclick="changeDataSelection('recovered')">
                   <div class="card-body">
-                    <h5 class="card-title">Sembuh</h5>
-                    <h6 class="card-subtitle mb-2 recovered-number">436,345</h6>
+                    <h6 class="card-title">Sembuh</h6>
+                    <h3 class="card-subtitle mb-2 recovered-number">436,345</h3>
+                    <div class="text-muted font-weight-bold total recovered-total">1.69M Total</div>
                   </div>
                 </div>
               </div>
               <div class="col">
                 <div class="card" onclick="changeDataSelection('deaths')">
                   <div class="card-body">
-                    <h5 class="card-title">Meninggal</h5>
-                    <h6 class="card-subtitle mb-2 deaths-number">736,345</h6>
+                    <h6 class="card-title">Meninggal</h6>
+                    <h3 class="card-subtitle mb-2 deaths-number">736,345</h3>
+                    <div class="text-muted font-weight-bold total deaths-total">1.69M Total</div>
                   </div>
                 </div>
               </div>
@@ -82,17 +76,40 @@
               </div>
             </div>
 
-            <div class="row chart-container mr-0 ml-0 mt-3">
+            <!-- <div class="row chart-container mr-0 ml-0 mt-3">
               <div class="col linear-chart p-3 mr-3">
                 <canvas id="myChart"></canvas>
               </div>
               <div class="col p-3">
                 <canvas id="myPieChart"></canvas>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-4 side-panel-container my-3">
+              <div class="cases-table-container">
+                <h5>Kasus Terkini Berdasarkan Negara</h5>
+                <div class="country-data">
+                  <table class="table">
+                    <thead>
+                      <tr class="table-active">
+                        <th scope="col">Lokasi</th>
+                        <th scope="col">Total kasus</th>
+                        <th scope="col">Sembuh</th>
+                        <th scope="col">Meninggal</th>
+                      </tr>
+                    </thead>
+                    <tbody id="table-data">
 
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="chart-container mr-0 ml-0 mt-3">
+                <h5>Perkembangan Total Kasus Dunia</h5>
+                <div class="linear-chart p-3">
+                  <canvas id="myChart"></canvas>
+                </div>
+              </div>
           </div>
         </div>
     </div>

@@ -23,7 +23,8 @@ const buildChart = (chartData) => {
         datasets: [
           {
             label: "🤢Total Kasus",
-            borderColor: "#1287f5",
+            backgroundColor: 'rgba(204, 16, 52, 0.2)',
+            borderColor: "#cc1034",
             data: chartData,
           },
         ],
@@ -51,7 +52,7 @@ const buildChart = (chartData) => {
               ticks: {
                 // Mengubah format dengan numeral
                 callback: function (value, index, values) {
-                  return numeral(value).format("0,0");
+                  return numeral(value).format("0a");
                 },
               },
             },

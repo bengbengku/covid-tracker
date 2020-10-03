@@ -1,3 +1,7 @@
+body {
+    background-color: #f5f6fa;
+}
+
 .main {
   height: 100vh;
 }
@@ -21,29 +25,39 @@
   border-radius: 12px;
 }
 
-.chart-container {
-  height: 300px;
-}
-
 .linear-chart {
   height: 100%;
 }
 
-.title-container h1 {
+.header-container {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.title-container h2 {
   color: #fc3c3c;
   margin-bottom: 0;
   font-weight: 600;
-  text-transform: uppercase;
 }
 
-.title-container h3 {
-  text-transform: uppercase;
-  color: #cacbcf;
+.stats-container .card-title {
+    color: #695d5c;
+    font-weight: 400;
 }
 
 .stats-container .card {
-  background-color: #eff2f6;
+  background-color: white;
   border-radius: 12px;
+  box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+}
+
+.stats-container .card-subtitle {
+    font-weight: 600;
+}
+
+
+.stats-container .total {
+    font-size: 0.8rem;
 }
 
 .search-container .card-body {
@@ -51,23 +65,21 @@
 }
 
 .side-panel-container {
-  background-color: #eff2f6;
+  background-color:white;
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px;
+  box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+  padding-top: 15px;
 }
 
 .total-number {
-  color: #1d2c4d;
-}
-
-.active-number {
-  color: #9d80fe;
+  color: #cc1034;
 }
 
 .recovered-number {
-  color: #7dd71d;
+  color: #7fd922;
 }
 
 .deaths-number {
-  color: #fb4443;
+  color: #fa5575;
 }
