@@ -11,6 +11,7 @@ body {
   width: 100%;
 }
 
+
 .map-info {
   background-color: bisque;
   height: 400px;
@@ -23,11 +24,14 @@ body {
   background-color: #fefefe;
 }
 
-.table,
-.table tr,
-.table td {
+
+.table th {
   background-color: white !important;
+  position: sticky;
+  top: 0;
+  height: 0;
 }
+
 
 .country-data {
   margin-top: 20px;
@@ -37,13 +41,11 @@ body {
   overflow-y: scroll;
   transition: all 0.25s ease;
   border: 1px solid #dadce0;
-  padding: 20px;
 }
 
 .country-data:hover {
   box-shadow: 0 2rem 2.5rem 0 rgba(0, 0, 0, 0.1);
 }
-
 
 .country-img {
   width: 30px;

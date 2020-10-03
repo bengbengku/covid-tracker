@@ -18,6 +18,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="script.js"></script>
     <script src="map-style.js"></script>
+    <script src="chart.js"></script>
   </head>
   <body>
 
@@ -27,7 +28,7 @@
             <div class="row header-container">
               <div class="col title-container">
                 <h1>Covid-19</h1>
-                <h4>Coronavirus</h4>
+                <h3>Coronavirus</h3>
               </div>
               <div class="col search-container">
                 <div class="input-group">
@@ -42,34 +43,34 @@
             </div>
             <div class="row stats-container">
               <div class="col">
-                <div class="card">
+                <div class="card" onclick="changeDataSelection('cases')">
                   <div class="card-body">
                     <h5 class="card-title">Total Kasus</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">1,436,345</h6>
+                    <h6 class="card-subtitle mb-2 total-number">1,436,345</h6>
                   </div>
                 </div>
               </div>
               <div class="col">
-                <div class="card">
+                <div class="card" onclick="changeDataSelection('active')">
                   <div class="card-body">
                     <h5 class="card-title">Kasus Aktif</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">1,436,345</h6>
+                    <h6 class="card-subtitle mb-2 active-number">1,436,345</h6>
                   </div>
                 </div>
               </div>
               <div class="col">
-                <div class="card">
+                <div class="card" onclick="changeDataSelection('recovered')">
                   <div class="card-body">
                     <h5 class="card-title">Sembuh</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">436,345</h6>
+                    <h6 class="card-subtitle mb-2 recovered-number">436,345</h6>
                   </div>
                 </div>
               </div>
               <div class="col">
-                <div class="card">
+                <div class="card" onclick="changeDataSelection('deaths')">
                   <div class="card-body">
                     <h5 class="card-title">Meninggal</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">736,345</h6>
+                    <h6 class="card-subtitle mb-2 deaths-number">736,345</h6>
                   </div>
                 </div>
               </div>

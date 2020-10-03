@@ -8,6 +8,14 @@ window.onload = () => {
 
 var map;
 var infoWindow;
+let coronaGlobalData;
+let mapCircles = [];
+var casesTypeColors = {
+  cases: '#1d2c4d',
+  active: '#9d80fe',
+  recovered: '#7dd71d',
+  deaths: '#fb4443'
+}
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -24,6 +32,18 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
 }
 
+const changeDataSelection = (casesType) => {
+  clearTheMap();
+  showDataOnMap(coronaGlobalData, casesType);
+}
+
+const clearTheMap = () => {
+  for(let circle of mapCircles) {
+    circle.setMap(null);
+  }
+}
+
+
 const getCountryData = () => {
   //Mengambil data dari api #1
 
@@ -32,6 +52,7 @@ const getCountryData = () => {
       return response.json();
     })
     .then((data) => {
+      coronaGlobalData = data;
       showDataOnMap(data); // passing data
       showDataInTable(data);
     });
@@ -60,96 +81,8 @@ const getHistoricalData = () => {
     });
 };
 
-const buildChartData = (data) => {
-  let chartData = [];
-  for (let date in data.cases) {
-    let newDataPoint = {
-      x: date,
-      y: data.cases[date],
-    };
-    chartData.push(newDataPoint);
-  }
+const showDataOnMap = (data, casesType="cases") => {
 
-  return chartData;
-};
-
-const buildPieChart = (data) => {
-  var ctx = document.getElementById("myPieChart").getContext("2d");
-  var myPieChart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      datasets: [
-        {
-          data: [data.active, data.recovered, data.deaths],
-          backgroundColor: [
-            '#9d80fe',
-            '#7dd71d',
-            '#fb4443'
-          ]
-        },
-      ],
-
-      // These labels appear in the legend and in the tooltips when hovering different arcs
-      labels: ["Kasus Aktif", "Sembuh", "Meninggal"],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-    }
-  });
-};
-
-const buildChart = (chartData) => {
-  var timeFormat = "MM/DD/YY";
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: "line",
-
-    // The data for our dataset
-    data: {
-      datasets: [
-        {
-          label: "🤢Total Kasus",
-          borderColor: "#1287f5",
-          data: chartData,
-        },
-      ],
-    },
-
-    // Configuration options go here && Import moment.js
-    options: {
-      maintainAspectRatio: false,
-      tooltips: {
-        mode: "index",
-        intersect: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            type: "time",
-            time: {
-              format: timeFormat,
-              tooltipFormat: "ll",
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              // Mengubah format dengan numeral
-              callback: function (value, index, values) {
-                return numeral(value).format("0,0");
-              },
-            },
-          },
-        ],
-      },
-    },
-  });
-};
-
-const showDataOnMap = (data) => {
   //Mengeluarkan data untuk ditampilkan #2
   data.map((country) => {
     let countryCenter = {
@@ -157,16 +90,18 @@ const showDataOnMap = (data) => {
       lng: country.countryInfo.long,
     };
 
-    const countryCircle = new google.maps.Circle({
-      strokeColor: "#fc3c3c",
+    var countryCircle = new google.maps.Circle({
+      strokeColor: casesTypeColors[casesType],
       strokeOpacity: 0.5,
-      strokeWeight: 3,
-      fillColor: "#fc3c3c",
+      strokeWeight: 2,
+      fillColor: casesTypeColors[casesType],
       fillOpacity: 0.35,
-      map,
+      map: map,
       center: countryCenter,
-      radius: country.cases * 0.28,
+      radius: country[casesType] * 0.28,
     });
+
+    mapCircles.push(countryCircle); //Menyimpan data countryCircle ke array mapCircles
 
     var html = `
             <div class="info-container">
