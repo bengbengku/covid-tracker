@@ -10,12 +10,17 @@ var map;
 var infoWindow;
 let coronaGlobalData;
 let mapCircles = [];
-var casesTypeColors = {
-  cases: '#1d2c4d',
-  active: '#9d80fe',
-  recovered: '#7dd71d',
-  deaths: '#fb4443'
+const worldWideSelection = {
+  name: 'Seluruh Dunia',
+  value: 'www',
+  selected: true
 }
+var casesTypeColors = {
+  cases: "#1d2c4d",
+  active: "#9d80fe",
+  recovered: "#7dd71d",
+  deaths: "#fb4443",
+};
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -35,12 +40,31 @@ function initMap() {
 const changeDataSelection = (casesType) => {
   clearTheMap();
   showDataOnMap(coronaGlobalData, casesType);
-}
+};
 
 const clearTheMap = () => {
-  for(let circle of mapCircles) {
+  for (let circle of mapCircles) {
     circle.setMap(null);
   }
+};
+
+
+const initDropdown = (searchList) => {
+  $(".ui.dropdown").dropdown({
+      values: searchList
+    }); //load semantic
+}
+
+const setSearchList = (data) => {
+  let searchList = [];
+  searchList.push(worldWideSelection);
+  data.forEach((countryData) => {
+      searchList.push({
+        name: countryData.country,
+        value: countryData.countryInfo.iso3
+      })
+      initDropdown(searchList);
+  })
 }
 
 
@@ -53,6 +77,7 @@ const getCountryData = () => {
     })
     .then((data) => {
       coronaGlobalData = data;
+      setSearchList(data);
       showDataOnMap(data); // passing data
       showDataInTable(data);
     });
@@ -70,24 +95,23 @@ const getWorldCoronaData = () => {
 };
 
 const setStatsData = (data) => {
-  
+  let addedCases = numeral(data.todayCases).format("+0,0");
+  let addedRecovered = numeral(data.todayRecovered).format("+0,0");
+  let addedDeaths = numeral(data.todayDeaths).format("+0,0");
+  let totalCases = numeral(data.cases).format("0.0a");
+  let totalRecovered = numeral(data.recovered).format("0.0a");
+  let totalDeaths = numeral(data.deaths).format("0.0a");
 
-  let addedCases = numeral(data.todayCases).format('+0,0');
-  let addedRecovered = numeral(data.todayRecovered).format('+0,0');
-  let addedDeaths = numeral(data.todayDeaths).format('+0,0');
-  let totalCases = numeral(data.cases).format('0.0a');
-  let totalRecovered = numeral(data.recovered).format('0.0a');
-  let totalDeaths = numeral(data.deaths).format('0.0a');
+  document.querySelector(".total-number").innerHTML = addedCases;
+  document.querySelector(".recovered-number").innerHTML = addedRecovered;
+  document.querySelector(".deaths-number").innerHTML = addedDeaths;
 
-  document.querySelector('.total-number').innerHTML = addedCases;
-  document.querySelector('.recovered-number').innerHTML = addedRecovered;
-  document.querySelector('.deaths-number').innerHTML = addedDeaths;
-
-  document.querySelector('.cases-total').innerHTML = `${totalCases} Total`;
-  document.querySelector('.recovered-total').innerHTML = `${totalRecovered} Total`;
-  document.querySelector('.deaths-total').innerHTML = `${totalDeaths} Total`;
-}
-
+  document.querySelector(".cases-total").innerHTML = `${totalCases} Total`;
+  document.querySelector(
+    ".recovered-total"
+  ).innerHTML = `${totalRecovered} Total`;
+  document.querySelector(".deaths-total").innerHTML = `${totalDeaths} Total`;
+};
 
 const getHistoricalData = () => {
   //Mengambil data historical dari api
@@ -102,8 +126,7 @@ const getHistoricalData = () => {
     });
 };
 
-const showDataOnMap = (data, casesType="cases") => {
-
+const showDataOnMap = (data, casesType = "cases") => {
   //Mengeluarkan data untuk ditampilkan #2
   data.map((country) => {
     let countryCenter = {
@@ -126,18 +149,20 @@ const showDataOnMap = (data, casesType="cases") => {
 
     var html = `
             <div class="info-container">
-                <div class="info-flag" style="background-image: url(${country.countryInfo.flag})"></div>
+                <div class="info-flag" style="background-image: url(${
+                  country.countryInfo.flag
+                })"></div>
                 <div class="info-name">
                     ${country.country}
                 </div>
                 <div class="info-confirmed">
-                    Total Kasus: ${numeral(country.cases).format('0,0')}
+                    Total Kasus: ${numeral(country.cases).format("0,0")}
                 </div>
                 <div class="info-deaths">
-                   Meninggal: ${numeral(country.deaths).format('0,0')} 
+                   Meninggal: ${numeral(country.deaths).format("0,0")} 
                 </div>
                 <div class="info-recovered">
-                   Sembuh: ${numeral(country.recovered).format('0,0')}        
+                   Sembuh: ${numeral(country.recovered).format("0,0")}        
                 </div>                
             </div>
           `;
@@ -161,10 +186,12 @@ const showDataInTable = (data) => {
   data.forEach((country) => {
     html += `
             <tr>
-                <td id="img-flexbox"><div class="country-img" style="background-image: url(${country.countryInfo.flag})"></div>${country.country}</td>
-                <td>${numeral(country.cases).format('0,0')}</td>
-                <td>${numeral(country.recovered).format('0,0')}</td>
-                <td>${numeral(country.deaths).format('0,0')}</td>
+                <td id="img-flexbox"><div class="country-img" style="background-image: url(${
+                  country.countryInfo.flag
+                })"></div>${country.country}</td>
+                <td>${numeral(country.cases).format("0,0")}</td>
+                <td>${numeral(country.recovered).format("0,0")}</td>
+                <td>${numeral(country.deaths).format("0,0")}</td>
             </tr>
         `;
     document.getElementById("table-data").innerHTML = html;

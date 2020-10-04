@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="newStyle.css" />
     <link
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/transition.min.css"
+    />
+    <link
+      rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
@@ -21,62 +29,69 @@
     <script src="chart.js"></script>
   </head>
   <body>
-
     <div class="container-fluid main">
-        <div class="row">
-          <div class="col-8">
-            <div class="row header-container">
-              <div class="col title-container">
-                <h2>COVID-19 Tracker</h2>
-              </div>
-              <div class="col search-container">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Search Location" aria-label="Search Location" aria-describedby="basic-addon1">
-                </div>
-              </div>
-              
+      <div class="row">
+        <div class="col-8">
+          <div class="row header-container">
+            <div class="col title-container">
+              <h2>COVID-19 Tracker</h2>
             </div>
-            <div class="row stats-container">
-              <div class="col">
-                <div class="card" onclick="changeDataSelection('cases')">
-                  <div class="card-body">
-                    <h6 class="card-title">Terkonfirmasi</h6>
-                    <h3 class="card-subtitle mb-2 total-number">1,436,345</h3>
-                    <div class="text-muted font-weight-bold total cases-total">1.69M Total</div>
-                  </div>
+            <div class="col search-container">
+              <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="country">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Country</div>
+                <div class="menu">
+                
                 </div>
               </div>
-              <div class="col">
-                <div class="card" onclick="changeDataSelection('recovered')">
-                  <div class="card-body">
-                    <h6 class="card-title">Sembuh</h6>
-                    <h3 class="card-subtitle mb-2 recovered-number">436,345</h3>
-                    <div class="text-muted font-weight-bold total recovered-total">1.69M Total</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card" onclick="changeDataSelection('deaths')">
-                  <div class="card-body">
-                    <h6 class="card-title">Meninggal</h6>
-                    <h3 class="card-subtitle mb-2 deaths-number">736,345</h3>
-                    <div class="text-muted font-weight-bold total deaths-total">1.69M Total</div>
+            </div>
+          </div>
+          <div class="row stats-container">
+            <div class="col">
+              <div class="card" onclick="changeDataSelection('cases')">
+                <div class="card-body">
+                  <h6 class="card-title">Terkonfirmasi</h6>
+                  <h3 class="card-subtitle mb-2 total-number">1,436,345</h3>
+                  <div class="text-muted font-weight-bold total cases-total">
+                    1.69M Total
                   </div>
                 </div>
               </div>
             </div>
+            <div class="col">
+              <div class="card" onclick="changeDataSelection('recovered')">
+                <div class="card-body">
+                  <h6 class="card-title">Sembuh</h6>
+                  <h3 class="card-subtitle mb-2 recovered-number">436,345</h3>
+                  <div
+                    class="text-muted font-weight-bold total recovered-total"
+                  >
+                    1.69M Total
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" onclick="changeDataSelection('deaths')">
+                <div class="card-body">
+                  <h6 class="card-title">Meninggal</h6>
+                  <h3 class="card-subtitle mb-2 deaths-number">736,345</h3>
+                  <div class="text-muted font-weight-bold total deaths-total">
+                    1.69M Total
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <div class="row map-container mt-3">
-              <div class="col">
-                <div id="map"></div>
-              </div>
+          <div class="row map-container mt-3">
+            <div class="col">
+              <div id="map"></div>
             </div>
+          </div>
 
-            <!-- <div class="row chart-container mr-0 ml-0 mt-3">
+          <!-- <div class="row chart-container mr-0 ml-0 mt-3">
               <div class="col linear-chart p-3 mr-3">
                 <canvas id="myChart"></canvas>
               </div>
@@ -84,81 +99,33 @@
                 <canvas id="myPieChart"></canvas>
               </div>
             </div> -->
+        </div>
+        <div class="col-4 side-panel-container my-3">
+          <div class="cases-table-container">
+            <h5>Kasus Terkini Berdasarkan Negara</h5>
+            <div class="country-data">
+              <table class="table">
+                <thead>
+                  <tr class="table-active">
+                    <th scope="col">Lokasi</th>
+                    <th scope="col">Total kasus</th>
+                    <th scope="col">Sembuh</th>
+                    <th scope="col">Meninggal</th>
+                  </tr>
+                </thead>
+                <tbody id="table-data"></tbody>
+              </table>
+            </div>
           </div>
-          <div class="col-4 side-panel-container my-3">
-              <div class="cases-table-container">
-                <h5>Kasus Terkini Berdasarkan Negara</h5>
-                <div class="country-data">
-                  <table class="table">
-                    <thead>
-                      <tr class="table-active">
-                        <th scope="col">Lokasi</th>
-                        <th scope="col">Total kasus</th>
-                        <th scope="col">Sembuh</th>
-                        <th scope="col">Meninggal</th>
-                      </tr>
-                    </thead>
-                    <tbody id="table-data">
-
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="chart-container mr-0 ml-0 mt-3">
-                <h5>Perkembangan Total Kasus Dunia</h5>
-                <div class="linear-chart p-3">
-                  <canvas id="myChart"></canvas>
-                </div>
-              </div>
+          <div class="chart-container mr-0 ml-0 mt-3">
+            <h5>Perkembangan Total Kasus Dunia</h5>
+            <div class="linear-chart p-3">
+              <canvas id="myChart"></canvas>
+            </div>
           </div>
         </div>
+      </div>
     </div>
-
-
-    <!-- <div id="nav"></div> -->
-
-    <!-- <div class="map-info">
-      <div id="map"></div>
-    </div> -->
-
-    <!-- <div class="data-info">
-      <div class="country-data">
-        <table class="table">
-          <thead>
-            <tr class="table-active">
-              <th scope="col">Lokasi</th>
-              <th scope="col">Total kasus</th>
-              <th scope="col">Sembuh</th>
-              <th scope="col">Meninggal</th>
-            </tr>
-          </thead>
-          <tbody id="table-data">
-            <tr class="table-info">
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr class="table-warning">
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr class="table-info">
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="chart-data">
-        <canvas id="myChart"></canvas>
-      </div>
-    </div> -->
-
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
       defer
@@ -179,5 +146,7 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/dropdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/components/transition.min.js"></script>
   </body>
 </html>
