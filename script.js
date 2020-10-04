@@ -1,7 +1,7 @@
 "use strict";
 
 window.onload = () => {
-  getCountryData();
+  getCountriesData();
   getHistoricalData();
   getWorldCoronaData();
 };
@@ -51,7 +51,14 @@ const clearTheMap = () => {
 
 const initDropdown = (searchList) => {
   $(".ui.dropdown").dropdown({
-      values: searchList
+      values: searchList,
+      onChange: function(value, text){
+        if(value !== worldWideSelection.value) {
+          getCountryData(value);
+        } else {
+          getWorldCoronaData();
+        }
+      }
     }); //load semantic
 }
 
@@ -61,14 +68,14 @@ const setSearchList = (data) => {
   data.forEach((countryData) => {
       searchList.push({
         name: countryData.country,
-        value: countryData.countryInfo.iso3
+        value: countryData.countryInfo.iso3,
       })
       initDropdown(searchList);
   })
 }
 
 
-const getCountryData = () => {
+const getCountriesData = () => {
   //Mengambil data dari api #1
 
   fetch("https://corona.lmao.ninja/v2/countries")
@@ -83,13 +90,23 @@ const getCountryData = () => {
     });
 };
 
+const getCountryData = (countryIso) => {
+  const url = "https:/disease.sh/v3/covid-19/countries/" + countryIso;
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      setStatsData(data);
+    });
+}
+
 const getWorldCoronaData = () => {
   fetch("https://disease.sh/v3/covid-19/all")
     .then((response) => {
       return response.json();
     })
     .then((data) => {
-      // buildPieChart(data);
       setStatsData(data);
     });
 };
