@@ -49,6 +49,7 @@ body {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .stats-container .card-subtitle {
@@ -82,4 +83,24 @@ body {
 
 .deaths-number {
   color: #fa5575;
+}
+
+.tab-selection {
+  height: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.cases .tab-selection {
+  background-color: #cc1034;
+}
+
+.recovered .tab-selection {
+  background-color: #7fd922;
+}
+
+.deaths .tab-selection {
+  background-color: #fa5575;
 }

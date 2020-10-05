@@ -22,12 +22,14 @@ var casesTypeColors = {
   deaths: "#fb4443",
 };
 
+const mapCenter = {
+  lat: -5,
+  lng: 120
+}
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: {
-      lat: -5,
-      lng: 120,
-    },
+    center: mapCenter,
     zoom: 3.2,
     minZoom: 3,
     styles: mapStyle, //var dari mapStyle.js
@@ -47,6 +49,14 @@ const clearTheMap = () => {
     circle.setMap(null);
   }
 };
+
+const setMapCenter = (lat, long, zoom) => {
+  map.setZoom(zoom);
+  map.panTo({
+    lat: lat,
+    lng: long,
+  })
+}
 
 
 const initDropdown = (searchList) => {
@@ -92,11 +102,13 @@ const getCountriesData = () => {
 
 const getCountryData = (countryIso) => {
   const url = "https:/disease.sh/v3/covid-19/countries/" + countryIso;
+  
   fetch(url)
     .then((response) => {
       return response.json();
     })
     .then((data) => {
+      setMapCenter(data.countryInfo.lat, data.countryInfo.long, 2); // Passing dari setMapCenter
       setStatsData(data);
     });
 }
@@ -108,6 +120,7 @@ const getWorldCoronaData = () => {
     })
     .then((data) => {
       setStatsData(data);
+      setMapCenter(mapCenter.lat, mapCenter.lng, 3); // Passing dari setMapCenter
     });
 };
 
