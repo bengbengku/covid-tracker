@@ -50,6 +50,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
   overflow: hidden;
+  cursor: pointer;
 }
 
 .stats-container .card-subtitle {
@@ -85,13 +86,27 @@ body {
   color: #fa5575;
 }
 
+/* proses hover akif */
+.card.active > .tab-selection {
+  opacity: 1;
+}
+
+
 .tab-selection {
   height: 10px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
 }
+
+.card:hover > .tab-selection {
+  opacity: 1;
+}
+/* proses hover akif */
+
 
 .cases .tab-selection {
   background-color: #cc1034;

@@ -39,10 +39,18 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
 }
 
-const changeDataSelection = (casesType) => {
+const changeDataSelection = (elem, casesType) => {
   clearTheMap();
   showDataOnMap(coronaGlobalData, casesType);
+  setActiveTab(elem);
 };
+
+const setActiveTab = (elem) => {
+  const activeEl = document.querySelector('.card.active');
+  activeEl.classList.remove('active');
+  elem.classList.add("active");
+}
+
 
 const clearTheMap = () => {
   for (let circle of mapCircles) {
@@ -51,11 +59,11 @@ const clearTheMap = () => {
 };
 
 const setMapCenter = (lat, long, zoom) => {
-  map.setZoom(zoom);
   map.panTo({
     lat: lat,
     lng: long,
   })
+  map.setZoom(zoom);
 }
 
 
