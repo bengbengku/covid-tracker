@@ -3,7 +3,8 @@ body {
 }
 
 .main {
-  height: 100vh;
+  min-height: 900px;
+  max-width: 1280px;
 }
 
 .search-container {
@@ -13,6 +14,7 @@ body {
 
 .map-container {
   height: 500px;
+  flex-grow: 1;
 }
 
 #map {
@@ -24,6 +26,7 @@ body {
   background-color: #eff2f6;
   border-radius: 12px;
 }
+
 
 .linear-chart {
   height: 100%;
@@ -68,8 +71,8 @@ body {
 
 .side-panel-container {
   background-color:white;
-  border-bottom-left-radius: 30px;
-  border-top-left-radius: 30px;
+  border-bottom-left-radius: 12px;
+  border-top-left-radius: 12px;
   box-shadow: 0 0 8px -4px rgba(0, 0, 0, 0.5);
   padding-top: 15px;
 }
@@ -119,3 +122,9 @@ body {
 .deaths .tab-selection {
   background-color: #fa5575;
 }
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+

@@ -27,7 +27,7 @@ const buildChart = (chartData) => {
         datasets: [
           {
             label: "🤢Total Kasus",
-            backgroundColor: 'rgba(204, 16, 52, 0.2)',
+            backgroundColor: 'rgba(244, 144, 128, 0.8)',
             borderColor: "#cc1034",
             data: chartData,
           },
@@ -54,11 +54,18 @@ const buildChart = (chartData) => {
                 format: timeFormat,
                 tooltipFormat: "ll",
               },
+              ticks: {
+                padding: 20
+              }
             },
           ],
           yAxes: [
             {
+              gridLines: {
+                display: false
+              },
               ticks: {
+                padding: 20,
                 // Mengubah format dengan numeral
                 callback: function (value, index, values) {
                   return numeral(value).format("0a");
